@@ -1,0 +1,39 @@
+# Git
+.git
+.gitignore
+
+# Python junk
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+*,cover
+.hypothesis/
+
+# Local environment & Secrets
+.env
+db.sqlite3
+*.log
+
+# Docker
+docker-compose*.yml
+docker/postgres/data/
+
+# IDEs
+.vscode/
+.idea/
+
+# OS junk
+.DS_Store
+Thumbs.db

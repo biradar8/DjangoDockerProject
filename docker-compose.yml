@@ -1,0 +1,59 @@
+services:
+  primary:
+    image: postgres:15-alpine
+    container_name: pg_primary
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/primary.conf:/etc/postgresql/postgresql.conf
+      - ./docker/postgres/pg_hba.conf:/etc/postgresql/pg_hba.conf
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "${DB_PRIMARY_HOST_PORT}:5432"
+
+  replica:
+    image: postgres:15-alpine
+    container_name: pg_replica
+    depends_on:
+      primary:
+        condition: service_healthy
+    volumes:
+      - ./docker/postgres/init-replica.sh:/usr/local/bin/init-replica.sh
+    entrypoint: [ "/bin/sh", "/usr/local/bin/init-replica.sh" ]
+    env_file:
+      - .env
+    environment:
+      PGPASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${DB_REPLICA_HOST_PORT}:5432"
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/django/Dockerfile
+    container_name: django_app
+    entrypoint: /app/docker/django/entrypoint.sh
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      primary:
+        condition: service_healthy
+
+
+volumes:
+  postgres_data:

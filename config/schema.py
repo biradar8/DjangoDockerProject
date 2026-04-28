@@ -2,6 +2,9 @@ import strawberry
 from django.contrib.auth import aauthenticate, alogin, alogout
 from strawberry.types import Info
 
+from blog.schema import Mutation as BlogQueryMutation  # type: ignore
+from blog.schema import Query as BlogQuery  # type: ignore
+
 from .graphql_extensions import ErrorLoggingExtension, MutationRoutingExtension
 
 
@@ -47,12 +50,12 @@ class AuthMutation:
 
 
 @strawberry.type
-class Query:
+class Query(BlogQuery):
     pass
 
 
 @strawberry.type
-class Mutation(AuthMutation):
+class Mutation(AuthMutation, BlogQueryMutation):
     pass
 
 

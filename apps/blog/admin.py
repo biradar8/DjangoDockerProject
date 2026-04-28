@@ -91,8 +91,6 @@ class PostAdmin(BaseModelAdmin):
     formfield_overrides = {models.TextField: {"widget": TinyMCE()}}
 
     def save_model(self, request, obj, form, change):
-        if not change:
-            obj.author = request.user
         return super().save_model(request, obj, form, change)
 
 

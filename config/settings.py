@@ -102,6 +102,9 @@ DATABASES = {
         "PASSWORD": os.environ["DB_PASSWORD"],
         "HOST": os.environ["DB_REPLICA_HOST"],
         "PORT": os.environ["DB_PORT"],
+        "TEST": {
+            "MIRROR": "default",
+        },
     },
 }
 
@@ -161,3 +164,24 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost:8000",
     "http://127.0.0.1:8000",
 ]
+
+# Tinymce
+TINYMCE_DEFAULT_CONFIG = {
+    "cleanup_on_startup": True,
+    "menubar": True,
+    "statusbar": True,
+    "visual": False,
+    "custom_undo_redo_levels": 50,
+    "pad_empty_with_br": True,
+    "plugins": """anchor autolink autoresize charmap code codesample emoticons \
+        fullscreen image insertdatetime link lists media nonbreaking pagebreak \
+        preview searchreplace visualblocks visualchars wordcount""",
+    "toolbar": """code preview bold italic underline strikethrough \
+        undo redo fontselect fontfamily fontsizeinput fontsizeselect forecolor \
+        backcolor alignleft aligncenter alignright alignjustify alignnone \
+        fullscreen numlist bullist outdent indent link codesample image \
+        visualblocks visualchars charmap pagebreak nonbreaking anchor \
+        formatselect emoticons""",
+}
+TINYMCE_JS_URL = "https://cdnjs.cloudflare.com/ajax/libs/tinymce/5.10.7/tinymce.min.js"
+

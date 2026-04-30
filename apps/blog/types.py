@@ -33,7 +33,6 @@ class PostType:
     title_slug: strawberry.auto
     category: Optional[CategoryType]
     body: strawberry.auto
-    status: strawberry.auto
     created_at: strawberry.auto
     updated_at: strawberry.auto
     created_by: Optional["UserType"]
@@ -41,7 +40,10 @@ class PostType:
 
     @classmethod
     def get_queryset(cls, queryset, info, **kwargs):
-        return queryset.filter(is_active=True)
+        return queryset.filter(
+            is_active=True,
+            status=models.Post.Status.PUBLISHED,
+        )
 
 
 @dj_type(User)
@@ -54,17 +56,13 @@ class UserType:
     def full_name(self) -> str:
         return self.get_full_name()
 
-    @classmethod
-    def get_queryset(cls, queryset, info, **kwargs):
-        return queryset.filter(is_active=True)
-
 
 @dj_filter_type(models.Post, lookups=True)
 class PostFilter:
     id: strawberry.auto
     title: strawberry.auto
-    status: strawberry.auto
-    category: strawberry.auto
+    title_slug: strawberry.auto
+    category: Optional["CategoryFilter"]
 
 
 @dj_filter_type(models.Category, lookups=True)

@@ -40,10 +40,18 @@ async def test_query_posts(mock_context):
     user = await User.objects.acreate(username="testuser")
     cat = await Category.objects.acreate(name="Cat 1", slug="cat-1")
     await Post.objects.acreate(
-        title="Post 1", title_slug="post-1", body="Body 1", category=cat
+        title="Post 1",
+        title_slug="post-1",
+        body="Body 1",
+        category=cat,
+        status=Post.Status.PUBLISHED,
     )
     await Post.objects.acreate(
-        title="Post 2", title_slug="post-2", body="Body 2", category=cat
+        title="Post 2",
+        title_slug="post-2",
+        body="Body 2",
+        category=cat,
+        status=Post.Status.PUBLISHED,
     )
 
     context = mock_context(user)
@@ -103,6 +111,7 @@ async def test_query_post_by_slug(mock_context):
         body="Body",
         category=cat,
         is_active=True,
+        status=Post.Status.PUBLISHED,
     )
 
     context = mock_context(user)

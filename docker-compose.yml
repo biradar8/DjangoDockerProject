@@ -46,14 +46,24 @@ services:
     entrypoint: /app/docker/django/entrypoint.sh
     volumes:
       - .:/app
-    ports:
-      - "8000:8000"
+      - static_volume:/app/staticfiles
     env_file:
       - .env
     depends_on:
       primary:
         condition: service_healthy
 
+  nginx:
+    image: nginx:alpine
+    container_name: nginx_proxy
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - static_volume:/app/staticfiles:ro
+    ports:
+      - "8000:80"
+    depends_on:
+      - web
 
 volumes:
   postgres_data:
+  static_volume:

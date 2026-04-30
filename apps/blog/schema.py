@@ -28,6 +28,7 @@ class Query:
     async def post_by_slug(self, slug: str) -> Optional[types.PostType]:
         return await models.Post.objects.filter(
             title_slug=slug,
+            status=models.Post.Status.PUBLISHED,
             is_active=True,
         ).afirst()
 

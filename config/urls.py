@@ -24,6 +24,7 @@ from config.schema import schema
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("blog/", include("blog.urls", namespace="blog")),
     path("tinymce/", include("tinymce.urls")),
     path("graphql/", csrf_exempt(AsyncGraphQLView.as_view(schema=schema))),
 ]

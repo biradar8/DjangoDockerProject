@@ -1,0 +1,20 @@
+<!-- IMPORTANT: Keep in sync with blog.js postCardTemplate -->
+<div class="card mb-4">
+  <div class="card-body p-4">
+    <h2 class="card-title h5 mb-2"><a href="{% url 'blog:post_detail' slug=post.titleSlug %}" class="text-decoration-none text-dark">{{ post.title }}</a></h2>
+
+    <div class="text-muted mb-2 small">
+      By <strong>{{ post.createdBy.username }}</strong>
+      {% if post.category %}
+        • {{ post.category.name }}
+      {% endif %}
+      {% if post.readCreatedAt %}
+        • {{ post.readCreatedAt }}
+      {% endif %}
+    </div>
+
+    <p class="card-text text-muted">{{ post.body|striptags|truncatewords:25 }}</p>
+
+    <a href="{% url 'blog:post_detail' slug=post.titleSlug %}" class="btn btn-sm btn-outline-primary">Read More →</a>
+  </div>
+</div>

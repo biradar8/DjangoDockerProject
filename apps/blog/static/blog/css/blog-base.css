@@ -1,0 +1,54 @@
+/* Base typography */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: #f5f7fb;
+}
+
+/* Navbar */
+.navbar {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Global links */
+a {
+    text-decoration: none;
+}
+
+/* Footer */
+footer {
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+/* Navbar branding accent */
+.brand-dot {
+    width: 10px;
+    height: 10px;
+    background: #0d6efd;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* Nav links */
+.navbar .nav-link {
+    font-size: 0.95rem;
+    opacity: 0.85;
+    transition: 0.2s ease;
+}
+
+.navbar .nav-link:hover {
+    opacity: 1;
+    color: #ffffff;
+}
+
+/* Active state (optional future Django logic) */
+.navbar .nav-link.active {
+    color: #ffffff;
+    font-weight: 500;
+}
+
+/* Brand */
+.navbar-brand {
+    font-size: 1.1rem;
+    letter-spacing: -0.3px;
+}

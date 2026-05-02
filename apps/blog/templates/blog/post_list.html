@@ -1,0 +1,41 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block title %}
+  Home - Django GraphQL Blog
+{% endblock %}
+
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'blog/css/blog-list.css' %}" />
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-lg-8 offset-lg-2">
+      <!-- Header and Search Bar -->
+      <div class="mb-4 p-4 bg-white rounded shadow-sm">
+        {% include 'blog/components/post_search.html' with categories=categories search_term=search_term selected_category=selected_category action_url=request.path title='Latest Posts' %}
+      </div>
+      <div id="posts-container">
+        {% for post in posts %}
+          {% include 'blog/components/post_card.html' %}
+        {% empty %}
+          <div class="alert alert-info text-center py-5 shadow-sm border-0">
+            <h4 class="alert-heading">No posts yet!</h4>
+            <p class="mb-0">Check back later or create a new post using the GraphQL API.</p>
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- The IntersectionObserver will watch this element -->
+      {% if posts|length >= 5 %}
+        <div id="infinite-scroll-trigger" class="text-center py-4 text-muted my-3 border rounded shadow-sm bg-white">
+          <div class="spinner-border spinner-border-sm me-2" role="status"></div>Loading more posts...
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block extra_scripts %}
+  <script src="{% static 'blog/js/blog-list.js' %}"></script>
+{% endblock %}

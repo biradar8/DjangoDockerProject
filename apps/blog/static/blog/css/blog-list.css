@@ -1,0 +1,56 @@
+/* Page title */
+h1 {
+    font-size: 1.8rem;
+    letter-spacing: -0.5px;
+}
+
+/* Cards */
+.card {
+    border-radius: 12px;
+    transition: all 0.25s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.card-title a {
+    color: #212529;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.card-title a:hover {
+    color: #0d6efd;
+}
+
+/* Card text */
+.card-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* Buttons */
+.btn-outline-primary {
+    border-radius: 20px;
+    padding: 4px 14px;
+}
+
+/* Search bar */
+form.d-flex {
+    gap: 8px;
+}
+
+select.form-select,
+input.form-control {
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+/* Infinite scroll */
+#infinite-scroll-trigger {
+    font-size: 0.9rem;
+    border-radius: 10px;
+    background: white;
+}

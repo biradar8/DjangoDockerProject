@@ -3,7 +3,7 @@ import threading
 import time
 
 from asgiref.sync import iscoroutinefunction
-from django.db import connections
+from django.db import close_old_connections, connections
 from django.db.utils import OperationalError
 from django.utils.decorators import sync_and_async_middleware
 
@@ -24,12 +24,15 @@ def check_replica_loop():
     """Background thread that pings the replica every 10 seconds."""
     while True:
         try:
+            close_old_connections()  # Close old connections to avoid issues
             # We use a low-level cursor to ping
             with connections["replica"].cursor() as cursor:
                 cursor.execute("SELECT 1")
             set_replica_health(True)
         except OperationalError:
             set_replica_health(False)
+        finally:
+            connections["replica"].close()  # Ensure to close connection
         time.sleep(10)
 
 

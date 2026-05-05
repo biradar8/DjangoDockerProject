@@ -69,6 +69,5 @@ logs-db: ## 📜 Tail the logs for both databases
 
 promote-replica: ## 👑 Emergency: Promote the Replica to Primary
 	@echo "Promoting the replica database to primary..."
-	docker-compose exec -u postgres replica pg_ctl promote -D /var/lib/postgresql/data
 	$(DC) exec -u $(DB_USER) $(REPLICA_DB) pg_ctl promote -D /var/lib/postgresql/data
 	@echo "Promotion signal sent! Don't forget to update your Django .env to point to the new primary."

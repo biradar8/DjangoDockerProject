@@ -1,7 +1,18 @@
+x-logging: &default-logging
+  driver: "json-file"
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+x-common: &common
+  networks:
+    - backend
+  logging: *default-logging
+
 services:
   primary:
     image: postgres:15-alpine
-    container_name: pg_primary
+    <<: *common
     restart: ${POSTGRES_RESTART_POLICY:-unless-stopped}
     env_file:
       - .env
@@ -25,7 +36,7 @@ services:
 
   replica:
     image: postgres:15-alpine
-    container_name: pg_replica
+    <<: *common
     restart: ${POSTGRES_RESTART_POLICY:-unless-stopped}
     depends_on:
       primary:
@@ -52,7 +63,7 @@ services:
     build:
       context: .
       dockerfile: docker/django/Dockerfile
-    container_name: django_app
+    <<: *common
     restart: ${APP_RESTART_POLICY:-unless-stopped}
     entrypoint: /app/docker/django/entrypoint.sh
     volumes:
@@ -66,7 +77,7 @@ services:
 
   nginx:
     image: nginx:alpine
-    container_name: nginx_proxy
+    <<: *common
     restart: ${NGINX_RESTART_POLICY:-unless-stopped}
     volumes:
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
@@ -75,6 +86,9 @@ services:
       - "8000:80"
     depends_on:
       - web
+
+networks:
+  backend:
 
 volumes:
   postgres_data:

@@ -22,10 +22,8 @@ class BlogIndexView(TemplateView):
 
         context["posts"] = posts
         context["categories"] = models.Category.objects.all()
-        if search_term:
-            context["search_term"] = search_term
-        if category_slug:
-            context["selected_category"] = category_slug
+        context["search_term"] = search_term
+        context["selected_category"] = category_slug
 
         return context
 

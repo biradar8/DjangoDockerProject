@@ -1,7 +1,7 @@
 import pytest
-from blog.models import Category, Post
 from django.contrib.auth import get_user_model
 
+from apps.blog.models import Category, Post
 from config.schema import schema
 
 pytestmark = pytest.mark.django_db(transaction=True, databases="__all__")

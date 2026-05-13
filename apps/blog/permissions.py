@@ -7,7 +7,7 @@ from strawberry.types import Info
 class IsAuthenticated(BasePermission):
     message = "You must be logged in to perform this action."
 
-    async def has_permission(self, source: any, info: Info, **kwargs) -> bool:
+    async def has_permission(self, source: Any, info: Info, **kwargs) -> bool:
         request = info.context.get("request")
         if not request or not request.user:
             return False
@@ -17,7 +17,7 @@ class IsAuthenticated(BasePermission):
 class IsStaff(BasePermission):
     message = "You must be a staff member to perform this action."
 
-    async def has_permission(self, source: any, info: Info, **kwargs) -> bool:
+    async def has_permission(self, source: Any, info: Info, **kwargs) -> bool:
         request = info.context.get("request")
         if not request or not request.user:
             return False
@@ -27,7 +27,7 @@ class IsStaff(BasePermission):
 class IsSuperuser(BasePermission):
     message = "You must be a superuser to perform this action."
 
-    async def has_permission(self, source: any, info: Info, **kwargs) -> bool:
+    async def has_permission(self, source: Any, info: Info, **kwargs) -> bool:
         request = info.context.get("request")
         if not request or not request.user:
             return False

@@ -2,8 +2,8 @@ import strawberry
 from django.contrib.auth import aauthenticate, alogin, alogout
 from strawberry.types import Info
 
-from blog.schema import Mutation as BlogQueryMutation  # type: ignore
-from blog.schema import Query as BlogQuery  # type: ignore
+from apps.blog.schema import Mutation as BlogQueryMutation
+from apps.blog.schema import Query as BlogQuery
 
 from .graphql_extensions import ErrorLoggingExtension, MutationRoutingExtension
 

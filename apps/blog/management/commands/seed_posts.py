@@ -1,10 +1,11 @@
 import random
 
-from blog.models import Category, Post
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 from django.utils.text import slugify
 from faker import Faker
+
+from apps.blog.models import Category, Post
 
 User = get_user_model()
 fake = Faker()

@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.utils.text import slugify
 
-from blog.models import Category, Post
+from apps.blog.models import Category, Post
 
 User = get_user_model()
 

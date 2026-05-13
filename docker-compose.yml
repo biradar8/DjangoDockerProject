@@ -9,6 +9,18 @@ x-common: &common
     - backend
   logging: *default-logging
 
+x-django: &django
+  build:
+    context: .
+    dockerfile: docker/django/Dockerfile
+  image: djangodockerproject-web:latest
+  <<: *common
+  restart: ${APP_RESTART_POLICY:-unless-stopped}
+  volumes:
+    - .:/app
+  env_file:
+    - .env
+
 services:
   primary:
     image: postgres:15-alpine
@@ -60,17 +72,11 @@ services:
       - "${DB_REPLICA_HOST_PORT}:5432"
 
   web:
-    build:
-      context: .
-      dockerfile: docker/django/Dockerfile
-    <<: *common
-    restart: ${APP_RESTART_POLICY:-unless-stopped}
+    <<: *django
     entrypoint: /app/docker/django/entrypoint.sh
     volumes:
       - .:/app
       - static_volume:/app/staticfiles
-    env_file:
-      - .env
     depends_on:
       primary:
         condition: service_healthy

@@ -18,11 +18,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import RedirectView  # NOTE: TEMPORARY
 from strawberry.django.views import AsyncGraphQLView
 
 from config.schema import schema
 
 urlpatterns = [
+    path("", RedirectView.as_view(url="/blog/", permanent=False)),  # NOTE: TEMPORARY
     path("admin/", admin.site.urls),
     path("blog/", include("apps.blog.urls", namespace="blog")),
     path("tinymce/", include("tinymce.urls")),

@@ -1,6 +1,7 @@
 import strawberry
 from django.contrib.auth import aauthenticate, alogin, alogout
 from strawberry.types import Info
+from strawberry_django.optimizer import DjangoOptimizerExtension
 
 from apps.blog.schema import Mutation as BlogQueryMutation
 from apps.blog.schema import Query as BlogQuery
@@ -63,6 +64,7 @@ schema = strawberry.Schema(
     query=Query,
     mutation=Mutation,
     extensions=[
+        DjangoOptimizerExtension,
         ErrorLoggingExtension,
         MutationRoutingExtension,
     ],

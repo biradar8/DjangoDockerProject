@@ -2,6 +2,8 @@ from typing import List, Optional
 
 import strawberry
 from django.contrib.auth import get_user_model
+from django.db.models import Q
+from strawberry.types import Info
 from strawberry_django import field as dj_field
 from strawberry_django import mutations
 
@@ -25,12 +27,16 @@ class Query:
         ).afirst()
 
     @strawberry.field
-    async def post_by_slug(self, slug: str) -> Optional[types.PostType]:
-        return await models.Post.objects.filter(
-            title_slug=slug,
-            status=models.Post.Status.PUBLISHED,
-            is_active=True,
-        ).afirst()
+    async def post_by_slug(self, info: Info, slug: str) -> Optional[types.PostType]:
+        request = info.context.get("request")
+        queryset = models.Post.objects.filter(title_slug=slug, is_active=True)
+        if request and request.user.is_authenticated:
+            queryset = queryset.filter(
+                Q(status=models.Post.Status.PUBLISHED) | Q(created_by=request.user)
+            )
+        else:
+            queryset = queryset.filter(status=models.Post.Status.PUBLISHED)
+        return await queryset.afirst()
 
 
 @strawberry.type

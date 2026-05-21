@@ -1,6 +1,7 @@
 from typing import List, Optional
 
 import strawberry
+from asgiref.sync import sync_to_async
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.utils.timesince import timesince
@@ -42,12 +43,15 @@ class PostType:
     updated_by: Optional["UserType"]
 
     @strawberry.field
-    def read_created_at(self) -> Optional[str]:
-        if not self.created_at:
-            return None
-        time_ago = timesince(self.created_at).split(",")[0] + " ago"
-        formatted = self.created_at.strftime("%b %d, %Y • %I:%M %p")
-        return f"{formatted} • {time_ago}"
+    async def read_created_at(self) -> Optional[str]:
+        def _format():
+            if not self.created_at:
+                return None
+            time_ago = timesince(self.created_at).split(",")[0] + " ago"
+            formatted = self.created_at.strftime("%b %d, %Y • %I:%M %p")
+            return f"{formatted} • {time_ago}"
+
+        return await sync_to_async(_format)()
 
     @classmethod
     def get_queryset(cls, queryset, info, **kwargs):
@@ -70,8 +74,8 @@ class UserType:
     last_name: strawberry.auto
 
     @strawberry.field
-    def full_name(self) -> str:
-        return self.get_full_name()
+    async def full_name(self) -> str:
+        return await sync_to_async(self.get_full_name)()
 
 
 @dj_filter_type(models.Post, lookups=True)

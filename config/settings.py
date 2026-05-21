@@ -195,4 +195,3 @@ TINYMCE_DEFAULT_CONFIG = {
         formatselect emoticons""",
 }
 TINYMCE_JS_URL = "https://cdnjs.cloudflare.com/ajax/libs/tinymce/5.10.7/tinymce.min.js"
-
